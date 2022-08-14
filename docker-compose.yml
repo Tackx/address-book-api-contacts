@@ -1,0 +1,27 @@
+version: '3'
+
+networks:
+  address-book-api-network:
+    name: address-book-api-network
+
+services: 
+
+  # Contacts service
+  contacts:
+    container_name: contacts
+    restart: unless-stopped
+    build:
+      context: .
+      target: development
+    env_file: 
+      - .env
+    networks:
+      - address-book-api-network
+    volumes:
+      - ./:/usr/src/contacts
+      - /usr/src/contacts/node_modules
+      - contacts-logs:/usr/src/contacts/logs
+    command: npm run start:dev
+
+volumes: 
+  contacts-logs:
