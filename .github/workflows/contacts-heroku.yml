@@ -1,0 +1,21 @@
+name: AB-API-Contacts - Heroku
+
+on:
+  push:
+    branches: ['master']
+jobs:
+  build:
+    runs-on: [self-hosted, heroku]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: docker compose build contacts --no-cache
+      - name: Start Containers
+        run: docker compose up contacts --detach
+      - name: Amend rights to logs
+        run: docker exec -d contacts sh -c "chown 2001 -R logs && chgrp 2001 -R logs"
+      - name: Run Tests
+        run: docker exec -t contacts sh -c "npm test"
+      - name: Decompose Containers
+        run: docker compose down

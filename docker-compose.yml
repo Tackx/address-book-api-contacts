@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  address-book-api-network:
+    name: address-book-api-network
+
+services: 
+
+  # Contacts service
+  contacts:
+    container_name: contacts
+    restart: unless-stopped
+    build:
+      context: .
+      target: development
+    env_file: 
+      - .env
+    networks:
+      - address-book-api-network
+    depends_on:
+      - firebase-db
+    volumes:
+      - ./:/usr/src/contacts
+      - /usr/src/contacts/node_modules
+      - contacts-logs:/usr/src/contacts/logs
+    command: npm run start:dev
+
+ # Contacts service
+  firebase-db:
+    container_name: firebase-db
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.firebase
+    env_file: 
+      - .env
+    networks:
+      - address-book-api-network
+    ports:
+      - 9001:9001
+    # volumes:
+    #   - ./:/usr/src/contacts
+    #   - /usr/src/contacts/node_modules
+    #   - contacts-logs:/usr/src/contacts/logs
+
+volumes: 
+  contacts-logs:

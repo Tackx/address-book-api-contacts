@@ -1,0 +1,17 @@
+{
+  "emulators": {
+    "database": {
+      "host": "0.0.0.0",
+      "port": 9000,
+      "rules": {
+        ".read": true,
+        ".write": true
+      }
+    },
+    "ui": {
+      "enabled": false,
+      "host": "0.0.0.0",
+      "port": 9001
+    }
+  }
+}

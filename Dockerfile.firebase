@@ -1,0 +1,13 @@
+FROM node:alpine
+
+WORKDIR /app
+
+RUN apk add openjdk11
+
+RUN npm install -g firebase-tools
+
+COPY firebase.json .firebaserc ./
+
+EXPOSE 9000 9001
+
+CMD [ "firebase", "emulators:start", "--only", "database", "--debug" ]
