@@ -9,6 +9,7 @@ services:
   # Contacts service
   contacts:
     container_name: contacts
+    user: 0:0
     restart: unless-stopped
     build:
       context: .
